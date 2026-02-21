@@ -1,4 +1,4 @@
-export default function TopBar() {
+export function TopBar() {
   return (
     <div className="bg-white border-b border-slate-200 px-6 py-4 flex flex-col md:flex-row gap-4 md:items-center md:justify-between">
       <h1 className="text-2xl font-semibold tracking-tight">Todo Board</h1>

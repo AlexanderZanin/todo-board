@@ -1,12 +1,13 @@
 // import "./App.css";
-import AppLayout from "../components/layout/AppLayout";
-import TopBar from "../components/layout/TopBar";
-import Board from "../components/board/Board";
-import Column from "../components/board/Column";
-import { ColumnHeader } from "../components/board/ColumnHeader";
-import { ColumnFooter } from "../components/board/ColumnFooter";
-import { AddColumn } from "../components/board/AddColumn";
-import { TodoCard } from "../components/card/TodoCard";
+import { AppLayout, TopBar } from "../components/layout";
+import {
+  Board,
+  Column,
+  ColumnHeader,
+  ColumnFooter,
+  AddColumn,
+} from "../components/board";
+import { TodoCard } from "../components/card";
 
 export default function App() {
   return (
@@ -18,9 +19,9 @@ export default function App() {
           <ColumnHeader />
           <div className="p-3 space-y-3">
             <TodoCard title="Design UI" />
-            <TodoCard title="Implement store logic" selected />
-            <TodoCard title="Persist to localStorage" completed />
-            <TodoCard title="Editing state example" editing />
+            <TodoCard title="Implement store logic" isSelected />
+            <TodoCard title="Persist to localStorage" isCompleted />
+            <TodoCard title="Editing state example" isEditing />
           </div>
           <ColumnFooter />
         </Column>

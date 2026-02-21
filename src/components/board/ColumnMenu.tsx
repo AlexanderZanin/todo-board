@@ -10,7 +10,7 @@ interface ColumnMenuProps {
   onDelete?: () => void;
 }
 
-export default function ColumnMenu({
+export function ColumnMenu({
   isOpen,
   onClose,
   onRename,
