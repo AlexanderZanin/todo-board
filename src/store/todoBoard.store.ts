@@ -1,6 +1,6 @@
 import { proxy } from "valtio";
 import { devtools } from "valtio/utils";
-import type { BoardState, TaskStatus } from "../models";
+import type { BoardState, TaskStatus, Task } from "../models";
 
 export function generateId() {
   return crypto.randomUUID();
@@ -13,13 +13,55 @@ export function reorder<T>(list: T[], startIndex: number, endIndex: number) {
   return result;
 }
 
-export const boardStore = proxy<BoardState>({
+type ComputedProperties = {
+  readonly columnsWithTasks: {
+    id: string;
+    title: string;
+    tasks: Task[];
+  }[];
+};
+
+export const boardStore = proxy<BoardState & ComputedProperties>({
   tasks: {},
   columns: {},
   columnOrder: [],
   selectedTaskIds: [],
   searchQuery: "",
   filter: "all",
+
+  get columnsWithTasks() {
+    return this.columnOrder.map((columnId: string) => {
+      const column = this.columns[columnId];
+
+      const tasks = column.taskIds
+        .map((taskId) => this.tasks[taskId])
+        .filter(Boolean)
+        .filter((task) => {
+          if (this.filter === "active") {
+            return task.status === "active";
+          }
+
+          if (this.filter === "completed") {
+            return task.status === "completed";
+          }
+
+          return true;
+        })
+        .filter((task) => {
+          if (!this.searchQuery) return true;
+
+          return task.title
+            .toLowerCase()
+            .includes(this.searchQuery.toLowerCase());
+        });
+
+      return {
+        id: column.id,
+        title: column.title,
+        tasks,
+      };
+    });
+  },
 });
 
 devtools(boardStore, { name: "Editor Test App", enabled: true });
