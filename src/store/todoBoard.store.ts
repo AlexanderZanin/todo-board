@@ -143,7 +143,11 @@ export const boardActions = {
       status: "active",
     };
 
+    // mark new task as editing so UI can focus it
+    boardStore.tasks[id].isEditing = true;
+
     boardStore.columns[columnId].taskIds.push(id);
+    return id;
   },
 
   deleteTask(taskId: string, columnId: string) {
@@ -163,6 +167,13 @@ export const boardActions = {
     if (!task) return;
 
     task.title = title;
+  },
+
+  setTaskEditing(taskId: string, isEditing: boolean) {
+    const task = boardStore.tasks[taskId];
+    if (!task) return;
+
+    task.isEditing = isEditing;
   },
 
   toggleTask(taskId: string) {

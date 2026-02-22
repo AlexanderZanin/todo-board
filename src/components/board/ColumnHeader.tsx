@@ -5,6 +5,7 @@ import {
   useRefWithNull,
   type ColumnDragMeta,
 } from "../../hooks/useDragAndDrop";
+import { useBoard } from "../../hooks";
 
 interface Props {
   columnId: string;
@@ -20,14 +21,24 @@ export function ColumnHeader({ columnId }: Props) {
     columnId,
   } as ColumnDragMeta);
 
+  const { state } = useBoard();
+
+  const column = state.columnsWithTasks.find((c) => c.id === columnId);
+  const title = column ? column.title : (state.columns[columnId]?.title ?? "");
+  const count = column
+    ? column.tasks.length
+    : (state.columns[columnId]?.taskIds.length ?? 0);
+
   return (
     <div
       ref={rootRef}
       className="flex items-center justify-between px-4 py-3 border-b border-slate-200 bg-white rounded-t-lg"
     >
       <div ref={handleRef} className="flex items-center gap-2 cursor-grab">
-        <h2 className="text-sm font-semibold">In Progress</h2>
-        <span className="text-xs bg-slate-200 px-2 py-0.5 rounded-full">3</span>
+        <h2 className="text-sm font-semibold">{title}</h2>
+        <span className="text-xs bg-slate-200 px-2 py-0.5 rounded-full">
+          {count}
+        </span>
       </div>
 
       <div className="relative">

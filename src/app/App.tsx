@@ -48,6 +48,7 @@ export default function App() {
                                 isCompleted={
                                   column.tasks[i].status === "completed"
                                 }
+                                isEditing={Boolean(column.tasks[i].isEditing)}
                               />
                             </div>
                           )}

@@ -1,9 +1,10 @@
-import { useRef } from "react";
+import { useRef, useEffect, useState } from "react";
 import {
   useDraggable,
   useRefWithNull,
   type TaskDragMeta,
 } from "../../hooks/useDragAndDrop";
+import { useBoard } from "../../hooks";
 
 interface Props {
   taskId: string;
@@ -30,6 +31,27 @@ export function TodoCard({
     taskId,
     sourceColumnId: columnId,
   } as TaskDragMeta);
+  const { actions } = useBoard();
+  const inputRef = useRef<HTMLInputElement | null>(null);
+  const [text, setText] = useState(title);
+
+  useEffect(() => {
+    setText(title);
+  }, [title]);
+
+  useEffect(() => {
+    if (isEditing) {
+      // focus input after render
+      setTimeout(() => inputRef.current?.focus(), 0);
+    }
+  }, [isEditing]);
+
+  function finishEdit(save = true) {
+    if (save) {
+      actions.editTask(taskId, text.trim() || "Untitled");
+    }
+    actions.setTaskEditing(taskId, false);
+  }
 
   return (
     <div
@@ -50,7 +72,18 @@ export function TodoCard({
       <div className="flex-1">
         {isEditing ? (
           <input
-            defaultValue={title}
+            ref={inputRef}
+            value={text}
+            onChange={(e) => setText(e.target.value)}
+            onBlur={() => finishEdit(true)}
+            onKeyDown={(e) => {
+              if (e.key === "Enter") {
+                finishEdit(true);
+              }
+              if (e.key === "Escape") {
+                finishEdit(false);
+              }
+            }}
             className="w-full px-2 py-1 border border-slate-300 rounded focus:outline-none focus:ring-2 focus:ring-indigo-500"
           />
         ) : (
