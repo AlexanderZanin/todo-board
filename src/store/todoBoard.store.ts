@@ -112,6 +112,24 @@ export const boardActions = {
     );
   },
 
+  moveColumn(params: { columnId: string; toIndex: number }) {
+    const { columnId, toIndex } = params;
+
+    const currentIndex = boardStore.columnOrder.findIndex(
+      (id) => id === columnId,
+    );
+
+    if (currentIndex === -1) return;
+
+    if (currentIndex === toIndex) return;
+
+    const updated = [...boardStore.columnOrder];
+    updated.splice(currentIndex, 1);
+    updated.splice(toIndex, 0, columnId);
+
+    boardStore.columnOrder = updated;
+  },
+
   // -------------------------
   // TASK ACTIONS
   // -------------------------
