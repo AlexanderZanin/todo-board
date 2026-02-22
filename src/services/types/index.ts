@@ -1,1 +1,1 @@
-export * from "./todoStorage";
+export * from "./todoStorage.types";
