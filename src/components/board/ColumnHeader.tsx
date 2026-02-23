@@ -6,6 +6,7 @@ import {
   type ColumnDragMeta,
 } from "../../hooks/useDragAndDrop";
 import { useBoard } from "../../hooks";
+import { DragButton } from "../base";
 
 interface Props {
   columnId: string;
@@ -35,6 +36,7 @@ export function ColumnHeader({ columnId }: Props) {
       className="flex items-center justify-between px-4 py-3 border-b border-slate-200 bg-white rounded-t-lg"
     >
       <div ref={handleRef} className="flex items-center gap-2 cursor-grab">
+        <DragButton />
         <h2 className="text-sm font-semibold">{title}</h2>
         <span className="text-xs bg-slate-200 px-2 py-0.5 rounded-full">
           {count}

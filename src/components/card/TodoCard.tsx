@@ -5,6 +5,7 @@ import {
   type TaskDragMeta,
 } from "../../hooks/useDragAndDrop";
 import { useBoard } from "../../hooks";
+import { DragButton } from "../base";
 
 interface Props {
   taskId: string;
@@ -56,18 +57,12 @@ export function TodoCard({
   return (
     <div
       ref={rootRef}
-      className={`group bg-white rounded-md p-3 border text-sm transition-all flex items-start gap-2
+      className={`group bg-white rounded-md p-3 border text-sm transition-all flex items-center gap-2
         ${isSelected ? "border-indigo-500 ring-2 ring-indigo-200" : "border-slate-200"}
         ${isCompleted ? "opacity-70" : ""}
       `}
     >
-      <button
-        ref={handleRef}
-        aria-label="Drag handle"
-        className="opacity-0 group-hover:opacity-100 transition p-1 rounded hover:bg-slate-100"
-      >
-        ≡
-      </button>
+      <DragButton ref={handleRef} />
 
       <div className="flex-1">
         {isEditing ? (
