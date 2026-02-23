@@ -9,7 +9,6 @@ import { DragButton } from "../base";
 import type { Task } from "../../models";
 
 interface Props {
-  taskId: string;
   item: Task;
   columnId: string;
   isSelected?: boolean;

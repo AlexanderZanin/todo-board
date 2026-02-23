@@ -40,7 +40,6 @@ export default function App() {
                             <div className="py-1">
                               <TodoCard
                                 key={column.tasks[i].id}
-                                taskId={column.tasks[i].id}
                                 columnId={column.id}
                                 item={column.tasks[i]}
                               />
