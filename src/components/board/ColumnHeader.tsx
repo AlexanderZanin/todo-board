@@ -1,12 +1,11 @@
 import { useState, useRef, useEffect } from "react";
-import { ColumnMenu } from "./index";
 import {
   useDraggable,
   useRefWithNull,
   type ColumnDragMeta,
 } from "../../hooks/useDragAndDrop";
 import { useBoard } from "../../hooks";
-import { DragButton } from "../base";
+import { DragButton, BaseMenu, BaseMenuButton } from "../base";
 
 interface Props {
   columnId: string;
@@ -89,19 +88,28 @@ export function ColumnHeader({ columnId }: Props) {
         >
           ⋯
         </button>
-
-        <ColumnMenu
-          isOpen={isOpen}
-          onClose={() => setIsOpen(false)}
-          onRename={() => {
-            setIsOpen(false);
-            setIsEditingTitle(true);
-          }}
-          onDelete={() => {
-            setIsOpen(false);
-            actions.deleteColumn(columnId);
-          }}
-        />
+        <BaseMenu isOpen={isOpen} onClose={() => setIsOpen(false)}>
+          <BaseMenuButton
+            onClick={() => {
+              setIsOpen(false);
+              setIsEditingTitle(true);
+            }}
+          >
+            Rename column
+          </BaseMenuButton>
+          <BaseMenuButton>Select all tasks</BaseMenuButton>
+          <BaseMenuButton>Clear completed</BaseMenuButton>
+          <div className="border-t border-slate-200 my-1" />
+          <BaseMenuButton
+            isDanger
+            onClick={() => {
+              setIsOpen(false);
+              actions.deleteColumn(columnId);
+            }}
+          >
+            Delete column
+          </BaseMenuButton>
+        </BaseMenu>
       </div>
     </div>
   );
