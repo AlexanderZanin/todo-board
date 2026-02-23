@@ -2,7 +2,7 @@ import { useBoard } from "../../hooks";
 import { FilterButton } from "../base";
 
 export function TopBar() {
-  const { state, actions } = useBoard();
+  const { state, filtersSelection, actions } = useBoard();
 
   return (
     <div className="bg-white border-b border-slate-200 px-6 py-4 flex flex-col md:flex-row gap-4 md:items-center md:justify-between">
@@ -18,22 +18,22 @@ export function TopBar() {
 
         <div className="flex gap-2">
           <FilterButton
-            isActive={state.filter === "all"}
+            isActive={filtersSelection.isAll}
             onClick={() => actions.setFilter("all")}
           >
             All
           </FilterButton>
           <FilterButton
-            isActive={state.filter === "active"}
+            isActive={filtersSelection.isActive}
             onClick={() => actions.setFilter("active")}
           >
             Active
           </FilterButton>
           <FilterButton
-            isActive={state.filter === "completed"}
+            isActive={filtersSelection.isCompleted}
             onClick={() => actions.setFilter("completed")}
           >
-            Active
+            Completed
           </FilterButton>
         </div>
       </div>
