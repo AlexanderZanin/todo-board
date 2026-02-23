@@ -18,7 +18,7 @@ export function TaskDropZone({ columnId, index }: Props) {
     (data) => {
       setActive(false);
       if (!data) return;
-      if ((data as any).type === "task") {
+      if (data.type === "task") {
         const d = data as TaskDragMeta;
         actions.moveTask({
           taskId: d.taskId,

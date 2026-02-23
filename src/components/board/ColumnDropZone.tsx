@@ -17,7 +17,7 @@ export function ColumnDropZone({ index }: Props) {
     (data) => {
       setActive(false);
       if (!data) return;
-      if ((data as any).type === "column") {
+      if (data.type === "column") {
         const d = data as ColumnDragMeta;
         actions.moveColumn({ columnId: d.columnId, toIndex: index });
       }

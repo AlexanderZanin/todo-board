@@ -31,15 +31,18 @@ export function useDraggable(
 
     const cleanup = draggable({
       element,
-      dragHandle: dragHandleRef ? dragHandleRef.current : undefined,
+      dragHandle:
+        dragHandleRef && dragHandleRef.current
+          ? dragHandleRef.current
+          : undefined,
       getInitialData: () => meta as Record<string, unknown>,
-    } as any);
+    });
 
     return () => {
       try {
         cleanup?.();
       } catch (e) {
-        // ignore
+        console.warn("Error during draggable cleanup", e);
       }
     };
   }, [elementRef, dragHandleRef, meta]);
@@ -57,20 +60,20 @@ export function useDroppable(
 
     const cleanup = dropTargetForElements({
       element: el,
-      onDrop: (payload: any) => {
+      onDrop: (payload) => {
         // payload.source.data contains the draggable's initial data
         const data = payload?.source?.data ?? null;
-        onDrop(data, undefined);
+        onDrop(data as DropPayload, undefined);
       },
       onDragEnter: () => onDragEnter?.(),
       onDragLeave: () => onDragLeave?.(),
-    } as any);
+    });
 
     return () => {
       try {
         cleanup?.();
       } catch (e) {
-        // ignore
+        console.warn("Error during droppable cleanup", e);
       }
     };
   }, [ref, onDrop, onDragEnter, onDragLeave]);
