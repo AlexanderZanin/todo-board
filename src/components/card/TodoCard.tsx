@@ -6,44 +6,46 @@ import {
 } from "../../hooks/useDragAndDrop";
 import { useBoard } from "../../hooks";
 import { DragButton } from "../base";
+import type { Task } from "../../models";
 
 interface Props {
-  taskId: string;
+  item: Task;
   columnId: string;
   isSelected?: boolean;
 }
 
-export function TodoCard({ taskId, columnId, isSelected }: Props) {
-  const { state, actions } = useBoard();
-  const item = state.tasks[taskId];
-
+export function TodoCard({
+  item,
+  columnId,
+  isSelected,
+}: Props) {
   const rootRef = useRefWithNull<HTMLDivElement>();
   const handleRef = useRef<HTMLButtonElement | null>(null);
 
   useDraggable(rootRef, handleRef, {
     type: "task",
-    taskId: taskId,
+    taskId: item.id,
     sourceColumnId: columnId,
   } as TaskDragMeta);
-
+  const { actions } = useBoard();
   const inputRef = useRef<HTMLInputElement | null>(null);
-  const [text, setText] = useState(item?.title ?? "");
+  const [text, setText] = useState(item.title);
 
   useEffect(() => {
-    if (item?.isEditing) {
+    if (item.isEditing) {
+      // focus input after render
       setTimeout(() => inputRef.current?.focus(), 0);
     }
-  }, [item?.isEditing]);
+  }, [item.isEditing]);
 
   function finishEdit(save = true) {
-    if (!item) return;
     if (save) {
       actions.editTask(item.id, text.trim() || "Untitled");
     }
     actions.setTaskEditing(item.id, false);
   }
 
-  const isCompleted = item?.status === "completed";
+  const isCompleted = item.status === "completed";
 
   return (
     <div
@@ -56,7 +58,7 @@ export function TodoCard({ taskId, columnId, isSelected }: Props) {
       <DragButton ref={handleRef} />
 
       <div className="flex-1">
-        {item?.isEditing ? (
+        {item.isEditing ? (
           <input
             ref={inputRef}
             value={text}
@@ -76,12 +78,14 @@ export function TodoCard({ taskId, columnId, isSelected }: Props) {
           <div className="flex items-start gap-2">
             <input
               type="checkbox"
-              checked={Boolean(isCompleted)}
+              checked={isCompleted}
               readOnly
               className="mt-1 accent-indigo-600"
             />
-            <p className={`${isCompleted ? "line-through text-slate-500" : ""}`}>
-              {item?.title}
+            <p
+              className={`${isCompleted ? "line-through text-slate-500" : ""}`}
+            >
+              {item.title}
             </p>
           </div>
         )}

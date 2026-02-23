@@ -13,7 +13,7 @@ import { ColumnDropZone } from "../components/board/ColumnDropZone";
 import { useBoard } from "../hooks";
 
 export default function App() {
-  const { state } = useBoard();
+  const { state, getters } = useBoard();
 
   return (
     <AppLayout>
@@ -41,7 +41,7 @@ export default function App() {
                               <TodoCard
                                 key={column.tasks[i].id}
                                 columnId={column.id}
-                                taskId={column.tasks[i].id}
+                                item={getters.getTaskById(column.tasks[i].id)}
                               />
                             </div>
                           )}

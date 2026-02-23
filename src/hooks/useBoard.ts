@@ -15,9 +15,14 @@ export function useBoard() {
     boardActions.setSearchQuery("");
   }
 
+  const getTaskById = (id: string) => snap.tasks[id];
+
   return {
     state: snap,
     filtersSelection,
+    getters: {
+      getTaskById,
+    },
     actions: { ...boardActions, addNewTask },
   };
 }
