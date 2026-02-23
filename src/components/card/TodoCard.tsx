@@ -6,53 +6,47 @@ import {
 } from "../../hooks/useDragAndDrop";
 import { useBoard } from "../../hooks";
 import { DragButton } from "../base";
+import type { Task } from "../../models";
 
 interface Props {
   taskId: string;
+  item: Task;
   columnId: string;
-  title: string;
-  isCompleted?: boolean;
   isSelected?: boolean;
-  isEditing?: boolean;
 }
 
 export function TodoCard({
-  taskId,
+  item,
   columnId,
-  title,
-  isCompleted,
   isSelected,
-  isEditing,
 }: Props) {
   const rootRef = useRefWithNull<HTMLDivElement>();
   const handleRef = useRef<HTMLButtonElement | null>(null);
 
   useDraggable(rootRef, handleRef, {
     type: "task",
-    taskId,
+    taskId: item.id,
     sourceColumnId: columnId,
   } as TaskDragMeta);
   const { actions } = useBoard();
   const inputRef = useRef<HTMLInputElement | null>(null);
-  const [text, setText] = useState(title);
+  const [text, setText] = useState(item.title);
 
   useEffect(() => {
-    setText(title);
-  }, [title]);
-
-  useEffect(() => {
-    if (isEditing) {
+    if (item.isEditing) {
       // focus input after render
       setTimeout(() => inputRef.current?.focus(), 0);
     }
-  }, [isEditing]);
+  }, [item.isEditing]);
 
   function finishEdit(save = true) {
     if (save) {
-      actions.editTask(taskId, text.trim() || "Untitled");
+      actions.editTask(item.id, text.trim() || "Untitled");
     }
-    actions.setTaskEditing(taskId, false);
+    actions.setTaskEditing(item.id, false);
   }
+
+  const isCompleted = item.status === "completed";
 
   return (
     <div
@@ -65,7 +59,7 @@ export function TodoCard({
       <DragButton ref={handleRef} />
 
       <div className="flex-1">
-        {isEditing ? (
+        {item.isEditing ? (
           <input
             ref={inputRef}
             value={text}
@@ -92,7 +86,7 @@ export function TodoCard({
             <p
               className={`${isCompleted ? "line-through text-slate-500" : ""}`}
             >
-              {title}
+              {item.title}
             </p>
           </div>
         )}

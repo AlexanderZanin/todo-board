@@ -42,11 +42,7 @@ export default function App() {
                                 key={column.tasks[i].id}
                                 taskId={column.tasks[i].id}
                                 columnId={column.id}
-                                title={column.tasks[i].title}
-                                isCompleted={
-                                  column.tasks[i].status === "completed"
-                                }
-                                isEditing={Boolean(column.tasks[i].isEditing)}
+                                item={column.tasks[i]}
                               />
                             </div>
                           )}
