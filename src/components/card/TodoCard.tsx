@@ -79,8 +79,8 @@ export function TodoCard({
             <input
               type="checkbox"
               checked={isCompleted}
-              readOnly
               className="mt-1 accent-indigo-600"
+              onChange={() => actions.toggleTask(item.id)}
             />
             <p
               className={`${isCompleted ? "line-through text-slate-500" : ""}`}
