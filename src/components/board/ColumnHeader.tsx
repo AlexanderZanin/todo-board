@@ -97,6 +97,10 @@ export function ColumnHeader({ columnId }: Props) {
             setIsOpen(false);
             setIsEditingTitle(true);
           }}
+          onDelete={() => {
+            setIsOpen(false);
+            actions.deleteColumn(columnId);
+          }}
         />
       </div>
     </div>
