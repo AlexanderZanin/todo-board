@@ -11,12 +11,7 @@ export function ColumnFooter({ columnId }: Props) {
     <div className="p-3">
       <button
         className="w-full text-sm text-indigo-600 hover:bg-indigo-50 rounded-md py-2 transition"
-        onClick={() =>
-          actions.addTask(
-            columnId,
-            `A new task ${Math.floor(Math.random() * 1000)}`,
-          )
-        }
+        onClick={() => actions.addTask(columnId, "")}
       >
         + Add a card
       </button>

@@ -20,15 +20,13 @@ export default function App() {
       <TopBar />
 
       <Board>
-        {state.columnOrder.map((colId, colIndex) => {
-          const column = state.columnsWithTasks.find((c) => c.id === colId)!;
-
+        {state.columnsWithTasks.map((column, colIndex) => {
           return (
-            <div className="flex items-start" key={colId}>
+            <div className="flex items-start" key={column.id}>
               <ColumnDropZone index={colIndex} />
 
               <Column>
-                <ColumnHeader columnId={colId} />
+                <ColumnHeader columnId={column.id} />
 
                 {Boolean(column.tasks.length) && (
                   <div className="p-3">
@@ -36,14 +34,14 @@ export default function App() {
                     {Array.from({ length: column.tasks.length + 1 }).map(
                       (_, i) => (
                         <div key={i} className="w-full">
-                          <TaskDropZone columnId={colId} index={i} />
+                          <TaskDropZone columnId={column.id} index={i} />
 
                           {i < column.tasks.length && (
                             <div className="py-1">
                               <TodoCard
                                 key={column.tasks[i].id}
                                 taskId={column.tasks[i].id}
-                                columnId={colId}
+                                columnId={column.id}
                                 title={column.tasks[i].title}
                                 isCompleted={
                                   column.tasks[i].status === "completed"
