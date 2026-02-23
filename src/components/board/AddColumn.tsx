@@ -42,7 +42,7 @@ export function AddColumn() {
           + Add another column
         </button>
       ) : (
-        <div className="bg-white border rounded-lg p-3">
+        <div className="bg-white border border-slate-200 rounded-lg p-3">
           <input
             ref={inputRef}
             value={value}
