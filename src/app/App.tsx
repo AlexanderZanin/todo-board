@@ -41,7 +41,7 @@ export default function App() {
                               <TodoCard
                                 key={column.tasks[i].id}
                                 columnId={column.id}
-                                item={column.tasks[i]}
+                                taskId={column.tasks[i].id}
                               />
                             </div>
                           )}
