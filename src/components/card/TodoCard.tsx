@@ -90,7 +90,7 @@ export function TodoCard({ item, columnId, isSelected }: Props) {
       </div>
       <div className="opacity-0 group-hover:opacity-100 transition ml-2 relative">
         <button
-          className="p-1 rounded hover:bg-slate-200"
+          className="p-1 rounded hover:bg-slate-200 cursor-pointer"
           onClick={() => setMenuOpen(true)}
         >
           ⋯

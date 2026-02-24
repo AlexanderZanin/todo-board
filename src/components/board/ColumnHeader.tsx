@@ -83,7 +83,7 @@ export function ColumnHeader({ columnId }: Props) {
 
       <div className="relative">
         <button
-          className="p-1 rounded hover:bg-slate-200"
+          className="p-1 rounded hover:bg-slate-200 cursor-pointer"
           onClick={() => setIsOpen(true)}
         >
           ⋯
@@ -111,7 +111,7 @@ export function ColumnHeader({ columnId }: Props) {
               ? "Deselect all tasks"
               : "Select all tasks"}
           </BaseMenuButton>
-          <BaseMenuButton>Clear completed</BaseMenuButton>
+          <BaseMenuButton isDisabled>Clear completed</BaseMenuButton>
           <div className="border-t border-slate-200 my-1" />
           <BaseMenuButton
             isDanger
