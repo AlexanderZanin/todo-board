@@ -16,7 +16,7 @@ export function Board() {
               <Column>
                 <ColumnHeader columnId={column.id} />
 
-                {Boolean(column.tasks.length) && (
+                {column.tasks.length ? (
                   <div className="px-3 pb-3">
                     {/** Drop before first, between and after tasks */}
                     {Array.from({ length: column.tasks.length + 1 }).map(
@@ -36,6 +36,10 @@ export function Board() {
                         </div>
                       ),
                     )}
+                  </div>
+                ) : (
+                  <div className="px-3 pb-3 w-full relative">
+                    <TaskDropZone columnId={column.id} index={0} />
                   </div>
                 )}
 
