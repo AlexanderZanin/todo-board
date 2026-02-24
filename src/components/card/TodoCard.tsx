@@ -56,9 +56,9 @@ export function TodoCard({ item, columnId, isSelected }: Props) {
   return (
     <div
       ref={rootRef}
-      className={`group bg-white rounded-md p-3 border text-sm transition-all flex items-center gap-2
+      className={`group rounded-md p-3 border text-sm transition-all flex items-center gap-2
         ${computedIsSelected ? "border-indigo-500 ring-2 ring-indigo-200" : "border-slate-200"}
-        ${isCompleted ? "opacity-70" : ""}
+        ${isCompleted ? "bg-white/50" : "bg-white"}
       `}
     >
       <DragButton ref={handleRef} />
@@ -88,7 +88,11 @@ export function TodoCard({ item, columnId, isSelected }: Props) {
           />
         )}
       </div>
-      <TodoCardMenu item={item} columnId={columnId} isSelected={computedIsSelected} />
+      <TodoCardMenu
+        item={item}
+        columnId={columnId}
+        isSelected={computedIsSelected}
+      />
     </div>
   );
 }
