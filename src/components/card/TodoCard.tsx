@@ -7,6 +7,7 @@ import {
 import { useBoard } from "../../hooks";
 import { DragButton, BaseMenu, BaseMenuButton } from "../base";
 import type { Task } from "../../models";
+import { TodoCardView } from "./TodoCardView";
 
 interface Props {
   item: Task;
@@ -80,19 +81,11 @@ export function TodoCard({ item, columnId, isSelected }: Props) {
             className="w-full px-2 py-1 border border-slate-300 rounded focus:outline-none focus:ring-2 focus:ring-indigo-500"
           />
         ) : (
-          <div className="flex items-start gap-2">
-            <input
-              type="checkbox"
-              checked={isCompleted}
-              className="mt-1 accent-indigo-600"
-              onChange={() => actions.toggleTask(item.id)}
-            />
-            <p
-              className={`${isCompleted ? "line-through text-slate-500" : ""}`}
-            >
-              {item.title}
-            </p>
-          </div>
+          <TodoCardView
+            isCompleted={isCompleted}
+            onChange={() => actions.toggleTask(item.id)}
+            item={item}
+          />
         )}
       </div>
       <div className="opacity-0 group-hover:opacity-100 transition ml-2 relative">
