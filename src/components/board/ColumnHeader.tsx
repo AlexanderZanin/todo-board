@@ -23,6 +23,11 @@ export function ColumnHeader({ columnId }: Props) {
 
   const { state, actions, getters } = useBoard();
 
+  const selectedInColumn = getters
+    .getAllColumnTasks(columnId)
+    .filter((id) => state.selectedTaskIds.includes(id));
+  const hasSelectedInColumn = selectedInColumn.length > 0;
+
   const column = state.columnsWithTasks.find((c) => c.id === columnId);
   const titleFromState = column
     ? column.title
@@ -110,6 +115,42 @@ export function ColumnHeader({ columnId }: Props) {
             {getters.areAllColumnTasksSelected(columnId)
               ? "Deselect all tasks"
               : "Select all tasks"}
+          </BaseMenuButton>
+          <div className="border-t border-slate-200 my-1" />
+          <BaseMenuButton
+            isDanger
+            isDisabled={!hasSelectedInColumn}
+            onClick={() => {
+              setIsOpen(false);
+              if (!hasSelectedInColumn) return;
+              actions.deleteTasks(selectedInColumn);
+            }}
+          >
+            Delete selected
+          </BaseMenuButton>
+
+          <BaseMenuButton
+            isDisabled={!hasSelectedInColumn}
+            onClick={() => {
+              setIsOpen(false);
+              if (!hasSelectedInColumn) return;
+              actions.setTasksStatus(selectedInColumn, "completed");
+              actions.clearSelection();
+            }}
+          >
+            Complete selected
+          </BaseMenuButton>
+
+          <BaseMenuButton
+            isDisabled={!hasSelectedInColumn}
+            onClick={() => {
+              setIsOpen(false);
+              if (!hasSelectedInColumn) return;
+              actions.setTasksStatus(selectedInColumn, "active");
+              actions.clearSelection();
+            }}
+          >
+            Incomplete selected
           </BaseMenuButton>
           <BaseMenuButton isDisabled>Clear completed</BaseMenuButton>
           <div className="border-t border-slate-200 my-1" />

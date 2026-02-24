@@ -220,7 +220,11 @@ export const boardActions = {
     toColumn.taskIds = updated;
   },
 
-  moveTasks(params: { taskIds: string[]; toColumnId: string; toIndex: number }) {
+  moveTasks(params: {
+    taskIds: string[];
+    toColumnId: string;
+    toIndex: number;
+  }) {
     const { taskIds, toColumnId, toIndex } = params;
 
     const toColumn = boardStore.columns[toColumnId];
@@ -281,6 +285,27 @@ export const boardActions = {
 
   setSelectedTasksStatus(status: TaskStatus) {
     boardStore.selectedTaskIds.forEach((taskId) => {
+      const task = boardStore.tasks[taskId];
+      if (task) task.status = status;
+    });
+  },
+
+  deleteTasks(taskIds: string[]) {
+    taskIds.forEach((taskId) => {
+      delete boardStore.tasks[taskId];
+
+      Object.values(boardStore.columns).forEach((column) => {
+        column.taskIds = column.taskIds.filter((id) => id !== taskId);
+      });
+    });
+
+    boardStore.selectedTaskIds = boardStore.selectedTaskIds.filter(
+      (id) => !taskIds.includes(id),
+    );
+  },
+
+  setTasksStatus(taskIds: string[], status: TaskStatus) {
+    taskIds.forEach((taskId) => {
       const task = boardStore.tasks[taskId];
       if (task) task.status = status;
     });
