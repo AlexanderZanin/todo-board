@@ -57,7 +57,7 @@ export function useDraggable(
           // build a small preview element showing a stack/count
           previewEl = document.createElement("div");
           previewEl.className = "w-80 px-3";
-          previewEl.innerHTML = `<div class="h-12 flex items-center justify-center bg-blue-500 text-white rounded-md">
+          previewEl.innerHTML = `<div class="h-12 flex items-center justify-center bg-indigo-500 text-white rounded-md">
             ${metaNow.selectedIds.length} cards
           </div>`;
 

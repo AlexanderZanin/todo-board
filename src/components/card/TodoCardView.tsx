@@ -29,7 +29,7 @@ export function TodoCardView({
 
           if (index < remainingParts.length - 1) {
             acc.push(
-              <span key={index} className="bg-yellow-200">
+              <span key={index} className="bg-yellow-200 shadow-sm">
                 {matchedSubstring}
               </span>,
             );
