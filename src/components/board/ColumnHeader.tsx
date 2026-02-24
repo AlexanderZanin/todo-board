@@ -5,14 +5,14 @@ import {
   type ColumnDragMeta,
 } from "../../hooks/useDragAndDrop";
 import { useBoard } from "../../hooks";
-import { DragButton, BaseMenu, BaseMenuButton } from "../base";
+import { DragButton } from "../base";
+import { ColumnHeaderMenu } from "./ColumnHeaderMenu";
 
 interface Props {
   columnId: string;
 }
 
 export function ColumnHeader({ columnId }: Props) {
-  const [isOpen, setIsOpen] = useState(false);
   const rootRef = useRefWithNull<HTMLDivElement>();
   const handleRef = useRef<HTMLDivElement | null>(null);
 
@@ -21,10 +21,7 @@ export function ColumnHeader({ columnId }: Props) {
     columnId,
   } as ColumnDragMeta);
 
-  const { state, actions, getters } = useBoard();
-
-  const selectedInColumn = getters.getSelectedTasksInColumn(columnId);
-  const hasSelectedInColumn = selectedInColumn.length > 0;
+  const { state, actions } = useBoard();
 
   const column = state.columnsWithTasks.find((c) => c.id === columnId);
   const titleFromState = column
@@ -84,89 +81,10 @@ export function ColumnHeader({ columnId }: Props) {
         )}
       </div>
 
-      <div className="relative">
-        <button
-          className="p-1 rounded hover:bg-slate-200 cursor-pointer"
-          onClick={() => setIsOpen(true)}
-        >
-          ⋯
-        </button>
-        <BaseMenu isOpen={isOpen} onClose={() => setIsOpen(false)}>
-          <BaseMenuButton
-            onClick={() => {
-              setIsOpen(false);
-              if (getters.areAllColumnTasksSelected(columnId)) {
-                actions.clearSelection();
-                return;
-              }
-              actions.selectTask(getters.getAllColumnTasks(columnId));
-            }}
-          >
-            {getters.areAllColumnTasksSelected(columnId)
-              ? "Deselect all tasks"
-              : "Select all tasks"}
-          </BaseMenuButton>
-
-          {Boolean(hasSelectedInColumn) && (
-            <>
-              <div className="border-t border-slate-200 my-1" />
-
-              <BaseMenuButton
-                onClick={() => {
-                  setIsOpen(false);
-                  if (!hasSelectedInColumn) return;
-                  actions.setTasksStatus(selectedInColumn, "completed");
-                  actions.clearSelection();
-                }}
-              >
-                Complete selected
-              </BaseMenuButton>
-
-              <BaseMenuButton
-                onClick={() => {
-                  setIsOpen(false);
-                  if (!hasSelectedInColumn) return;
-                  actions.setTasksStatus(selectedInColumn, "active");
-                  actions.clearSelection();
-                }}
-              >
-                Incomplete selected
-              </BaseMenuButton>
-
-              <BaseMenuButton
-                isDanger
-                onClick={() => {
-                  setIsOpen(false);
-                  if (!hasSelectedInColumn) return;
-                  actions.deleteTasks(selectedInColumn);
-                }}
-              >
-                Delete selected
-              </BaseMenuButton>
-            </>
-          )}
-
-          {/* <BaseMenuButton isDisabled>Clear completed</BaseMenuButton> */}
-          <div className="border-t border-slate-200 my-1" />
-          <BaseMenuButton
-            onClick={() => {
-              setIsOpen(false);
-              setIsEditingTitle(true);
-            }}
-          >
-            Rename column
-          </BaseMenuButton>
-          <BaseMenuButton
-            isDanger
-            onClick={() => {
-              setIsOpen(false);
-              actions.deleteColumn(columnId);
-            }}
-          >
-            Delete column
-          </BaseMenuButton>
-        </BaseMenu>
-      </div>
+      <ColumnHeaderMenu
+        columnId={columnId}
+        onColumRename={() => setIsEditingTitle(true)}
+      />
     </div>
   );
 }
