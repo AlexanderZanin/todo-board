@@ -1,17 +1,21 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { AppLayout, TopBar } from "../components/layout";
 import { Board } from "../components/board";
 import { initToDoStorage } from "./storageInit";
 
 export default function App() {
+  const [isStorageInitialized, setIsStorageInitialized] = useState(false);
+
   useEffect(() => {
-    initToDoStorage();
+    initToDoStorage().then(() => {
+      setIsStorageInitialized(true);
+    });
   }, []);
 
   return (
     <AppLayout>
       <TopBar />
-      <Board />
+      {isStorageInitialized && <Board />}
     </AppLayout>
   );
 }
