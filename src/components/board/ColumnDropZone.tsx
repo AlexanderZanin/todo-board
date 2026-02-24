@@ -5,9 +5,10 @@ import type { ColumnDragMeta } from "../../hooks/useDragAndDrop";
 
 interface Props {
   index: number;
+  children?: React.ReactNode;
 }
 
-export function ColumnDropZone({ index }: Props) {
+export function ColumnDropZone({ index, children }: Props) {
   const ref = useRef<HTMLDivElement | null>(null);
   const { actions } = useBoard();
   const [active, setActive] = useState(false);
@@ -22,18 +23,23 @@ export function ColumnDropZone({ index }: Props) {
         actions.moveColumn({ columnId: d.columnId, toIndex: index });
       }
     },
-    () => setActive(true),
+    (data) => {
+      // only activate column overlay for column drags
+      if (data && data.type === "column") {
+        setActive(true);
+      } else {
+        setActive(false);
+      }
+    },
     () => setActive(false),
   );
 
   return (
-    <div
-      ref={ref}
-      className={`w-6 flex-shrink-0 flex items-center justify-center ${
-        active ? "opacity-100" : "opacity-0"
-      }`}
-    >
-      <div className="w-px h-24 bg-blue-500" />
+    <div ref={ref} className="relative">
+      {active && (
+        <div className="bg-blue-500/40 rounded-lg inset-0 absolute z-50 pointer-events-none" />
+      )}
+      {children}
     </div>
   );
 }

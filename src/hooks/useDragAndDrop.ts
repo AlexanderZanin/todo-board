@@ -126,8 +126,8 @@ export function useDraggable(
 export function useDroppable(
   ref: RefObject<HTMLElement | null>,
   onDrop: (data: DropPayload, event?: Event) => void,
-  onDragEnter?: () => void,
-  onDragLeave?: () => void,
+  onDragEnter?: (data?: DropPayload) => void,
+  onDragLeave?: (data?: DropPayload) => void,
 ) {
   useEffect(() => {
     const el = ref.current;
@@ -140,8 +140,14 @@ export function useDroppable(
         const data = payload?.source?.data ?? null;
         onDrop(data as DropPayload, undefined);
       },
-      onDragEnter: () => onDragEnter?.(),
-      onDragLeave: () => onDragLeave?.(),
+      onDragEnter: (payload) => {
+        const data = payload?.source?.data ?? null;
+        onDragEnter?.(data as DropPayload);
+      },
+      onDragLeave: (payload) => {
+        const data = payload?.source?.data ?? null;
+        onDragLeave?.(data as DropPayload);
+      },
     });
 
     return () => {

@@ -11,12 +11,12 @@ interface Props {
 export function TaskDropZone({ columnId, index }: Props) {
   const ref = useRef<HTMLDivElement | null>(null);
   const { actions } = useBoard();
-  const [active, setActive] = useState(false);
+  const [activeType, setActiveType] = useState<string | null>(null);
 
   useDroppable(
     ref,
     (data) => {
-      setActive(false);
+      setActiveType(null);
       if (!data) return;
       if (data.type === "task") {
         const d = data as TaskDragMeta;
@@ -37,18 +37,27 @@ export function TaskDropZone({ columnId, index }: Props) {
         }
       }
     },
-    () => setActive(true),
-    () => setActive(false),
+    (data) => {
+      // set active type so we can differentiate visuals
+      if (!data) {
+        setActiveType(null);
+      } else if (data.type === "task") {
+        setActiveType("task");
+      } else if (data.type === "column") {
+        setActiveType("column");
+      }
+    },
+    () => setActiveType(null),
   );
 
   return (
     <div
       ref={ref}
-      className="transition-all duration-150 ease-out flex items-center absolute w-full top-0 left-0 right-0 z-10 h-4"
+      className={`transition-all duration-150 ease-out flex items-center absolute w-full top-0 left-0 right-0 z-10 h-4`}
     >
       <div
-        className={`mx-1 bg-blue-500 transition-all duration-150 ease-out rounded-full h-4 w-full ${
-          active ? "opacity-100" : "opacity-0"
+        className={`mx-1 bg-blue-500 transition-all duration-150 ease-out rounded-full w-full  ${
+          activeType === "task" ? "h-4 opacity-100" : "h-2 opacity-0"
         }`}
       />
     </div>

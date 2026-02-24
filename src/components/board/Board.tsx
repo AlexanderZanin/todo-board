@@ -12,42 +12,39 @@ export function Board() {
       {state.columnsWithTasks.map((column, colIndex) => {
         return (
           <div className="flex items-start" key={column.id}>
-            <ColumnDropZone index={colIndex} />
+            <ColumnDropZone index={colIndex}>
+              <Column>
+                <ColumnHeader columnId={column.id} />
 
-            <Column>
-              <ColumnHeader columnId={column.id} />
+                {Boolean(column.tasks.length) && (
+                  <div className="px-3 pb-3">
+                    {/** Drop before first, between and after tasks */}
+                    {Array.from({ length: column.tasks.length + 1 }).map(
+                      (_, i) => (
+                        <div key={i} className="w-full relative">
+                          <TaskDropZone columnId={column.id} index={i} />
 
-              {Boolean(column.tasks.length) && (
-                <div className="px-3 pb-3">
-                  {/** Drop before first, between and after tasks */}
-                  {Array.from({ length: column.tasks.length + 1 }).map(
-                    (_, i) => (
-                      <div key={i} className="w-full relative">
-                        <TaskDropZone columnId={column.id} index={i} />
+                          {i < column.tasks.length && (
+                            <div className="pt-4">
+                              <TodoCard
+                                key={column.tasks[i].id}
+                                columnId={column.id}
+                                item={getters.getTaskById(column.tasks[i].id)}
+                              />
+                            </div>
+                          )}
+                        </div>
+                      ),
+                    )}
+                  </div>
+                )}
 
-                        {i < column.tasks.length && (
-                          <div className="pt-4">
-                            <TodoCard
-                              key={column.tasks[i].id}
-                              columnId={column.id}
-                              item={getters.getTaskById(column.tasks[i].id)}
-                            />
-                          </div>
-                        )}
-                      </div>
-                    ),
-                  )}
-                </div>
-              )}
-
-              <ColumnFooter columnId={column.id} />
-            </Column>
+                <ColumnFooter columnId={column.id} />
+              </Column>
+            </ColumnDropZone>
           </div>
         );
       })}
-
-      {/* Drop zone at end for columns */}
-      <ColumnDropZone index={state.columnOrder.length} />
 
       <AddColumn />
     </div>
