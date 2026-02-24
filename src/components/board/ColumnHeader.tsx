@@ -23,9 +23,7 @@ export function ColumnHeader({ columnId }: Props) {
 
   const { state, actions, getters } = useBoard();
 
-  const selectedInColumn = getters
-    .getAllColumnTasks(columnId)
-    .filter((id) => state.selectedTaskIds.includes(id));
+  const selectedInColumn = getters.getSelectedTasksInColumn(columnId);
   const hasSelectedInColumn = selectedInColumn.length > 0;
 
   const column = state.columnsWithTasks.find((c) => c.id === columnId);
