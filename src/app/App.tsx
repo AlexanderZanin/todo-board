@@ -1,3 +1,4 @@
+import {  useEffect } from "react";
 import { AppLayout, TopBar } from "../components/layout";
 import {
   Board,
@@ -10,9 +11,14 @@ import { TodoCard } from "../components/card";
 import { TaskDropZone } from "../components/board/TaskDropZone";
 import { ColumnDropZone } from "../components/board/ColumnDropZone";
 import { useBoard } from "../hooks";
+import { initBoardStore } from "./storage-init";
 
 export default function App() {
   const { state, getters } = useBoard();
+
+  useEffect(() => {
+    initBoardStore();
+  }, []);
 
   return (
     <AppLayout>
