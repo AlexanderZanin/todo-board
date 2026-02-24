@@ -5,7 +5,7 @@ import {
   type TaskDragMeta,
 } from "../../hooks/useDragAndDrop";
 import { useBoard } from "../../hooks";
-import { DragButton } from "../base";
+import { DragButton, BaseMenu, BaseMenuButton } from "../base";
 import type { Task } from "../../models";
 
 interface Props {
@@ -14,11 +14,7 @@ interface Props {
   isSelected?: boolean;
 }
 
-export function TodoCard({
-  item,
-  columnId,
-  isSelected,
-}: Props) {
+export function TodoCard({ item, columnId, isSelected }: Props) {
   const rootRef = useRefWithNull<HTMLDivElement>();
   const handleRef = useRef<HTMLButtonElement | null>(null);
 
@@ -30,6 +26,7 @@ export function TodoCard({
   const { actions } = useBoard();
   const inputRef = useRef<HTMLInputElement | null>(null);
   const [text, setText] = useState(item.title);
+  const [menuOpen, setMenuOpen] = useState(false);
 
   useEffect(() => {
     if (item.isEditing) {
@@ -89,6 +86,34 @@ export function TodoCard({
             </p>
           </div>
         )}
+      </div>
+      <div className="opacity-0 group-hover:opacity-100 transition ml-2 relative">
+        <button
+          className="p-1 rounded hover:bg-slate-200"
+          onClick={() => setMenuOpen(true)}
+        >
+          ⋯
+        </button>
+        <BaseMenu isOpen={menuOpen} onClose={() => setMenuOpen(false)}>
+          <BaseMenuButton
+            onClick={() => {
+              setMenuOpen(false);
+              actions.setTaskEditing(item.id, true);
+            }}
+          >
+            Edit
+          </BaseMenuButton>
+
+          <BaseMenuButton
+            isDanger
+            onClick={() => {
+              setMenuOpen(false);
+              actions.deleteTask(item.id, columnId);
+            }}
+          >
+            Delete
+          </BaseMenuButton>
+        </BaseMenu>
       </div>
     </div>
   );
