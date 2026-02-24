@@ -20,12 +20,21 @@ export function TaskDropZone({ columnId, index }: Props) {
       if (!data) return;
       if (data.type === "task") {
         const d = data as TaskDragMeta;
-        actions.moveTask({
-          taskId: d.taskId,
-          fromColumnId: d.sourceColumnId,
-          toColumnId: columnId,
-          toIndex: index,
-        });
+        if (d.selectedIds && d.selectedIds.length > 1) {
+          actions.moveTasks({
+            taskIds: d.selectedIds,
+            toColumnId: columnId,
+            toIndex: index,
+          });
+          actions.clearSelection();
+        } else {
+          actions.moveTask({
+            taskId: d.taskId,
+            fromColumnId: d.sourceColumnId,
+            toColumnId: columnId,
+            toIndex: index,
+          });
+        }
       }
     },
     () => setActive(true),

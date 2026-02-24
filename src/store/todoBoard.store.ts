@@ -220,6 +220,23 @@ export const boardActions = {
     toColumn.taskIds = updated;
   },
 
+  moveTasks(params: { taskIds: string[]; toColumnId: string; toIndex: number }) {
+    const { taskIds, toColumnId, toIndex } = params;
+
+    const toColumn = boardStore.columns[toColumnId];
+    if (!toColumn) return;
+
+    // Remove each task from its current column(s)
+    Object.values(boardStore.columns).forEach((column) => {
+      column.taskIds = column.taskIds.filter((id) => !taskIds.includes(id));
+    });
+
+    // Insert tasks preserving provided order
+    const updated = [...toColumn.taskIds];
+    updated.splice(toIndex, 0, ...taskIds);
+    toColumn.taskIds = updated;
+  },
+
   // -------------------------
   // SELECTION ACTIONS
   // -------------------------

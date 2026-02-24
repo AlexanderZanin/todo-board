@@ -17,13 +17,21 @@ interface Props {
 export function TodoCard({ item, columnId, isSelected }: Props) {
   const rootRef = useRefWithNull<HTMLDivElement>();
   const handleRef = useRef<HTMLButtonElement | null>(null);
+  const { state, actions } = useBoard();
 
-  useDraggable(rootRef, handleRef, {
-    type: "task",
-    taskId: item.id,
-    sourceColumnId: columnId,
-  } as TaskDragMeta);
-  const { actions } = useBoard();
+  const computedIsSelected =
+    typeof isSelected === "boolean"
+      ? isSelected
+      : state.selectedTaskIds.includes(item.id);
+
+  useDraggable(rootRef, handleRef, () => {
+    return {
+      type: "task",
+      taskId: item.id,
+      sourceColumnId: columnId,
+      selectedIds: computedIsSelected ? state.selectedTaskIds : undefined,
+    } as TaskDragMeta;
+  });
   const inputRef = useRef<HTMLInputElement | null>(null);
   const [text, setText] = useState(item.title);
   const [menuOpen, setMenuOpen] = useState(false);
@@ -48,7 +56,7 @@ export function TodoCard({ item, columnId, isSelected }: Props) {
     <div
       ref={rootRef}
       className={`group bg-white rounded-md p-3 border text-sm transition-all flex items-center gap-2
-        ${isSelected ? "border-indigo-500 ring-2 ring-indigo-200" : "border-slate-200"}
+        ${computedIsSelected ? "border-indigo-500 ring-2 ring-indigo-200" : "border-slate-200"}
         ${isCompleted ? "opacity-70" : ""}
       `}
     >
@@ -102,6 +110,19 @@ export function TodoCard({ item, columnId, isSelected }: Props) {
             }}
           >
             Edit
+          </BaseMenuButton>
+
+          <BaseMenuButton
+            onClick={() => {
+              setMenuOpen(false);
+              if (computedIsSelected) {
+                actions.deselectTask(item.id);
+              } else {
+                actions.selectTask(item.id);
+              }
+            }}
+          >
+            {computedIsSelected ? "Unselect" : "Select"}
           </BaseMenuButton>
 
           <BaseMenuButton
