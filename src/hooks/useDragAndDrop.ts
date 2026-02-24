@@ -56,18 +56,10 @@ export function useDraggable(
         ) {
           // build a small preview element showing a stack/count
           previewEl = document.createElement("div");
-          previewEl.style.position = "absolute";
-          previewEl.style.top = "-9999px";
-          previewEl.style.left = "-9999px";
-          previewEl.style.padding = "8px 12px";
-          previewEl.style.background = "rgba(15,23,42,0.95)";
-          previewEl.style.color = "white";
-          previewEl.style.borderRadius = "8px";
-          previewEl.style.boxShadow = "0 6px 18px rgba(2,6,23,0.4)";
-          previewEl.style.fontSize = "13px";
-          previewEl.style.fontFamily =
-            "Inter, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial";
-          previewEl.innerText = `${metaNow.selectedIds.length} cards`;
+          previewEl.className = "w-80 px-3";
+          previewEl.innerHTML = `<div class="h-12 flex items-center justify-center bg-blue-500 text-white rounded-md">
+            ${metaNow.selectedIds.length} cards
+          </div>`;
 
           document.body.appendChild(previewEl);
 
