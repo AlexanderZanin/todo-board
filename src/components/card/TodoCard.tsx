@@ -5,9 +5,10 @@ import {
   type TaskDragMeta,
 } from "../../hooks/useDragAndDrop";
 import { useBoard } from "../../hooks";
-import { DragButton, BaseMenu, BaseMenuButton } from "../base";
+import { DragButton } from "../base";
 import type { Task } from "../../models";
 import { TodoCardView } from "./TodoCardView";
+import { TodoCardMenu } from "./TodoCardMenu";
 
 interface Props {
   item: Task;
@@ -35,7 +36,6 @@ export function TodoCard({ item, columnId, isSelected }: Props) {
   });
   const inputRef = useRef<HTMLInputElement | null>(null);
   const [text, setText] = useState(item.title);
-  const [menuOpen, setMenuOpen] = useState(false);
 
   useEffect(() => {
     if (item.isEditing) {
@@ -88,47 +88,7 @@ export function TodoCard({ item, columnId, isSelected }: Props) {
           />
         )}
       </div>
-      <div className="opacity-0 group-hover:opacity-100 transition ml-2 relative">
-        <button
-          className="p-1 rounded hover:bg-slate-200 cursor-pointer"
-          onClick={() => setMenuOpen(true)}
-        >
-          ⋯
-        </button>
-        <BaseMenu isOpen={menuOpen} onClose={() => setMenuOpen(false)}>
-          <BaseMenuButton
-            onClick={() => {
-              setMenuOpen(false);
-              actions.setTaskEditing(item.id, true);
-            }}
-          >
-            Edit
-          </BaseMenuButton>
-
-          <BaseMenuButton
-            onClick={() => {
-              setMenuOpen(false);
-              if (computedIsSelected) {
-                actions.deselectTask(item.id);
-              } else {
-                actions.selectTask(item.id);
-              }
-            }}
-          >
-            {computedIsSelected ? "Unselect" : "Select"}
-          </BaseMenuButton>
-
-          <BaseMenuButton
-            isDanger
-            onClick={() => {
-              setMenuOpen(false);
-              actions.deleteTask(item.id, columnId);
-            }}
-          >
-            Delete
-          </BaseMenuButton>
-        </BaseMenu>
-      </div>
+      <TodoCardMenu item={item} columnId={columnId} isSelected={computedIsSelected} />
     </div>
   );
 }
