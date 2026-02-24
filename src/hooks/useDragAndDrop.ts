@@ -54,17 +54,31 @@ export function useDraggable(
           metaNow.selectedIds &&
           metaNow.selectedIds.length > 1
         ) {
+          // remove any existing preview
+          if (previewEl && previewEl.parentNode) {
+            previewEl.parentNode.removeChild(previewEl);
+            previewEl = null;
+          }
+
           // build a small preview element showing a stack/count
           previewEl = document.createElement("div");
+          // keep it offscreen - it's required to be in DOM for setDragImage
+          previewEl.style.position = "absolute";
+          previewEl.style.top = "-9999px";
+          previewEl.style.left = "-9999px";
+          previewEl.style.pointerEvents = "none";
+          previewEl.style.zIndex = "9999";
           previewEl.className = "w-80 px-3";
-          previewEl.innerHTML = `<div class="h-12 flex items-center justify-center bg-indigo-500 text-white rounded-md">
-            ${metaNow.selectedIds.length} cards
-          </div>`;
+          previewEl.innerHTML = `<div class="h-12 flex items-center justify-center bg-indigo-500 text-white rounded-md">${metaNow.selectedIds.length} cards</div>`;
 
           document.body.appendChild(previewEl);
 
           if (e.dataTransfer && previewEl) {
-            e.dataTransfer.setDragImage(previewEl, 16, 16);
+            try {
+              e.dataTransfer.setDragImage(previewEl, 16, 16);
+            } catch (err) {
+              console.warn("Error setting drag image", err);
+            }
           }
 
           // dim original element for clarity
@@ -87,14 +101,21 @@ export function useDraggable(
       }
     }
 
+    // Listen on element and document to ensure we catch end in all cases
     element.addEventListener("dragstart", onDragStart as EventListener);
     element.addEventListener("dragend", onDragEnd as EventListener);
+    document.addEventListener("dragend", onDragEnd as EventListener);
+    document.addEventListener("pointerup", onDragEnd as EventListener);
+    document.addEventListener("pointercancel", onDragEnd as EventListener);
 
     return () => {
       try {
         cleanup?.();
         element.removeEventListener("dragstart", onDragStart as EventListener);
         element.removeEventListener("dragend", onDragEnd as EventListener);
+        document.removeEventListener("dragend", onDragEnd as EventListener);
+        document.removeEventListener("pointerup", onDragEnd as EventListener);
+        document.removeEventListener("pointercancel", onDragEnd as EventListener);
       } catch (e) {
         console.warn("Error during draggable cleanup", e);
       }
