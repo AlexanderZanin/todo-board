@@ -95,14 +95,6 @@ export function ColumnHeader({ columnId }: Props) {
           <BaseMenuButton
             onClick={() => {
               setIsOpen(false);
-              setIsEditingTitle(true);
-            }}
-          >
-            Rename column
-          </BaseMenuButton>
-          <BaseMenuButton
-            onClick={() => {
-              setIsOpen(false);
               if (getters.areAllColumnTasksSelected(columnId)) {
                 actions.clearSelection();
                 return;
@@ -114,44 +106,56 @@ export function ColumnHeader({ columnId }: Props) {
               ? "Deselect all tasks"
               : "Select all tasks"}
           </BaseMenuButton>
+
+          {Boolean(hasSelectedInColumn) && (
+            <>
+              <div className="border-t border-slate-200 my-1" />
+
+              <BaseMenuButton
+                onClick={() => {
+                  setIsOpen(false);
+                  if (!hasSelectedInColumn) return;
+                  actions.setTasksStatus(selectedInColumn, "completed");
+                  actions.clearSelection();
+                }}
+              >
+                Complete selected
+              </BaseMenuButton>
+
+              <BaseMenuButton
+                onClick={() => {
+                  setIsOpen(false);
+                  if (!hasSelectedInColumn) return;
+                  actions.setTasksStatus(selectedInColumn, "active");
+                  actions.clearSelection();
+                }}
+              >
+                Incomplete selected
+              </BaseMenuButton>
+
+              <BaseMenuButton
+                isDanger
+                onClick={() => {
+                  setIsOpen(false);
+                  if (!hasSelectedInColumn) return;
+                  actions.deleteTasks(selectedInColumn);
+                }}
+              >
+                Delete selected
+              </BaseMenuButton>
+            </>
+          )}
+
+          {/* <BaseMenuButton isDisabled>Clear completed</BaseMenuButton> */}
           <div className="border-t border-slate-200 my-1" />
           <BaseMenuButton
-            isDanger
-            isDisabled={!hasSelectedInColumn}
             onClick={() => {
               setIsOpen(false);
-              if (!hasSelectedInColumn) return;
-              actions.deleteTasks(selectedInColumn);
+              setIsEditingTitle(true);
             }}
           >
-            Delete selected
+            Rename column
           </BaseMenuButton>
-
-          <BaseMenuButton
-            isDisabled={!hasSelectedInColumn}
-            onClick={() => {
-              setIsOpen(false);
-              if (!hasSelectedInColumn) return;
-              actions.setTasksStatus(selectedInColumn, "completed");
-              actions.clearSelection();
-            }}
-          >
-            Complete selected
-          </BaseMenuButton>
-
-          <BaseMenuButton
-            isDisabled={!hasSelectedInColumn}
-            onClick={() => {
-              setIsOpen(false);
-              if (!hasSelectedInColumn) return;
-              actions.setTasksStatus(selectedInColumn, "active");
-              actions.clearSelection();
-            }}
-          >
-            Incomplete selected
-          </BaseMenuButton>
-          <BaseMenuButton isDisabled>Clear completed</BaseMenuButton>
-          <div className="border-t border-slate-200 my-1" />
           <BaseMenuButton
             isDanger
             onClick={() => {
