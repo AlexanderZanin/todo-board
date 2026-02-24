@@ -296,7 +296,32 @@ function TaskCard({ taskId }: { taskId: string }) {
 
 ---
 
-### 5️⃣ Drag and Drop Layer
+## 5️⃣ Persistence layer
+
+**Location:** `src/services/`
+
+### Files
+
+- `types.ts` — `TodoStorage` interface (`load` / `save` typed against `BoardState`)
+- `todoStorage.service.ts` — `LocalStorageService` implements `TodoStorage`
+- `storageInit.ts` — wires persistence to the store (lives next to `App.tsx` in `src/app/`)
+
+### Responsibilities
+
+- `LocalStorageService` — reads and writes `BoardState` to localStorage under the key `todo-board-data`
+- `storageInit.ts` — on app init, loads persisted state and hydrates the store; then subscribes to store changes and saves with debounce
+- `App.tsx` calls `initToDoStorage()` inside `useEffect` to kick this off
+
+### Rules
+
+- The store must not import or know about the persistence layer
+- The persistence layer must not import or know about the store directly — `storageInit.ts` is the only place that references both
+- Never access `localStorage` directly outside of `LocalStorageService`
+- Components must never interact with the persistence layer
+
+---
+
+### 6️⃣ Drag and Drop Layer
 
 **Library:** `@atlaskit/pragmatic-drag-and-drop` (no other DnD library allowed)
 

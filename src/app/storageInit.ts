@@ -10,7 +10,7 @@ const debouncedSave = debounce((state: BoardState) => {
   storage.save(state);
 }, 500);
 
-export async function initBoardStore() {
+export async function initToDoStorage() {
   const saved = await storage.load();
 
   if (saved) {
