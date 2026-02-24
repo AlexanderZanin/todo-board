@@ -16,12 +16,18 @@ export function useBoard() {
   }
 
   const getTaskById = (id: string) => snap.tasks[id];
+  const getAllColumnTasks = (columnId: string) =>
+    snap.columns[columnId].taskIds as string[];
+  const areAllColumnTasksSelected = (columnId: string) =>
+    getAllColumnTasks(columnId).length === snap.selectedTaskIds.length;
 
   return {
     state: snap,
     filtersSelection,
     getters: {
       getTaskById,
+      getAllColumnTasks,
+      areAllColumnTasksSelected,
     },
     actions: { ...boardActions, addNewTask },
   };

@@ -21,7 +21,7 @@ export function ColumnHeader({ columnId }: Props) {
     columnId,
   } as ColumnDragMeta);
 
-  const { state, actions } = useBoard();
+  const { state, actions, getters } = useBoard();
 
   const column = state.columnsWithTasks.find((c) => c.id === columnId);
   const titleFromState = column
@@ -97,7 +97,20 @@ export function ColumnHeader({ columnId }: Props) {
           >
             Rename column
           </BaseMenuButton>
-          <BaseMenuButton>Select all tasks</BaseMenuButton>
+          <BaseMenuButton
+            onClick={() => {
+              setIsOpen(false);
+              if (getters.areAllColumnTasksSelected(columnId)) {
+                actions.clearSelection();
+                return;
+              }
+              actions.selectTask(getters.getAllColumnTasks(columnId));
+            }}
+          >
+            {getters.areAllColumnTasksSelected(columnId)
+              ? "Deselect all tasks"
+              : "Select all tasks"}
+          </BaseMenuButton>
           <BaseMenuButton>Clear completed</BaseMenuButton>
           <div className="border-t border-slate-200 my-1" />
           <BaseMenuButton

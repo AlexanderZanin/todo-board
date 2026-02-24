@@ -241,10 +241,13 @@ export const boardActions = {
   // SELECTION ACTIONS
   // -------------------------
 
-  selectTask(taskId: string) {
-    if (!boardStore.selectedTaskIds.includes(taskId)) {
-      boardStore.selectedTaskIds.push(taskId);
-    }
+  selectTask(taskId: string | string[]) {
+    const taskIds = Array.isArray(taskId) ? taskId : [taskId];
+    taskIds.forEach((id) => {
+      if (!boardStore.selectedTaskIds.includes(id)) {
+        boardStore.selectedTaskIds.push(id);
+      }
+    });
   },
 
   deselectTask(taskId: string) {
