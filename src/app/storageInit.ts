@@ -20,6 +20,4 @@ export async function initToDoStorage() {
   subscribe(boardStore, () => {
     debouncedSave(boardStore);
   });
-
-  return Promise.resolve();
 }
