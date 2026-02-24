@@ -42,9 +42,12 @@ export function TaskDropZone({ columnId, index }: Props) {
   );
 
   return (
-    <div ref={ref} className="h-3">
+    <div
+      ref={ref}
+      className="transition-all duration-150 ease-out flex items-center absolute w-full top-0 left-0 right-0 z-10 h-4"
+    >
       <div
-        className={`h-0.5 transition-all bg-blue-500 mx-1 ${
+        className={`mx-1 bg-blue-500 transition-all duration-150 ease-out rounded-full h-4 w-full ${
           active ? "opacity-100" : "opacity-0"
         }`}
       />

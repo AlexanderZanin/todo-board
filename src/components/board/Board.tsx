@@ -18,15 +18,15 @@ export function Board() {
               <ColumnHeader columnId={column.id} />
 
               {Boolean(column.tasks.length) && (
-                <div className="p-3">
+                <div className="px-3 pb-3">
                   {/** Drop before first, between and after tasks */}
                   {Array.from({ length: column.tasks.length + 1 }).map(
                     (_, i) => (
-                      <div key={i} className="w-full">
+                      <div key={i} className="w-full relative">
                         <TaskDropZone columnId={column.id} index={i} />
 
                         {i < column.tasks.length && (
-                          <div className="py-1">
+                          <div className="pt-4">
                             <TodoCard
                               key={column.tasks[i].id}
                               columnId={column.id}
