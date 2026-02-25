@@ -1,10 +1,6 @@
 import { useRef, useEffect, useState } from "react";
 import classNames from "classnames";
-import {
-  useDraggable,
-  useRefWithNull,
-  type TaskDragMeta,
-} from "../../hooks/useDragAndDrop";
+import { useDraggable, useRefWithNull, type TaskDragMeta } from "../../hooks";
 import { useBoard } from "../../hooks";
 import { DragButton } from "../base";
 import type { Task } from "../../models";

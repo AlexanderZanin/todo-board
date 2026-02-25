@@ -1,7 +1,6 @@
 import { useRef, useState } from "react";
-import { useDroppable } from "../../hooks/useDragAndDrop";
+import { useDroppable, type TaskDragMeta } from "../../hooks";
 import { useBoard } from "../../hooks";
-import type { TaskDragMeta } from "../../hooks/useDragAndDrop";
 
 interface Props {
   columnId: string;

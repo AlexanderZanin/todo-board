@@ -1,7 +1,7 @@
 import { useEffect, useRef } from "react";
 import { createPortal } from "react-dom";
 import type { RefObject } from "react";
-import { useMenuPosition } from "../../hooks/useMenuPosition";
+import { useMenuPosition } from "../../hooks";
 
 interface ColumnMenuProps {
   isOpen: boolean;
