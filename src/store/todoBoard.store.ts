@@ -1,8 +1,9 @@
 import { proxy } from "valtio";
 import { devtools } from "valtio/utils";
+import { v4 as uuid } from "uuid";
 import type { BoardState, TaskStatus, Task } from "../models";
 
-export const generateId = () => crypto.randomUUID();
+export const generateId = () => uuid();
 
 type ComputedProperties = {
   readonly columnsWithTasks: {
