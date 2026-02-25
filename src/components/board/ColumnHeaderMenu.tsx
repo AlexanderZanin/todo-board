@@ -27,7 +27,11 @@ export function ColumnHeaderMenu({
       >
         ⋯
       </button>
-      <BaseMenu isOpen={isOpen} onClose={() => setIsOpen(false)} anchorRef={buttonRef}>
+      <BaseMenu
+        isOpen={isOpen}
+        onClose={() => setIsOpen(false)}
+        anchorRef={buttonRef}
+      >
         <BaseMenuButton
           onClick={() => {
             setIsOpen(false);
@@ -35,7 +39,7 @@ export function ColumnHeaderMenu({
               actions.clearSelection(columnId);
               return;
             }
-            actions.selectTask(getters.getAllColumnTasks(columnId));
+            actions.selectTask(getters.getAllColumnTasks(columnId) as string[]);
           }}
         >
           {areAllSelected ? "Deselect all tasks" : "Select all tasks"}
