@@ -1,6 +1,6 @@
-# Kanban Board (React + Valtio + Pragmatic DnD)
+# ToDo Kanban-like Board (React + Valtio + Pragmatic DnD)
 
-This is a small demo Kanban board built with React + TypeScript, Valtio for state, and
+This is a small demo ToDo board built with React + TypeScript, Valtio for state, and
 @atlaskit/pragmatic-drag-and-drop for DnD. It focuses on a clear state model, explicit
 actions for mutations, and a lightweight component structure.
 
@@ -8,7 +8,7 @@ actions for mutations, and a lightweight component structure.
 
 ## Quick start
 
-Prerequisites: Node.js 16+ and npm or Yarn.
+Prerequisites: Node.js 16+ and npm.
 
 Install dependencies:
 
