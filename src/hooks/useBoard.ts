@@ -17,8 +17,8 @@ export function useBoard() {
 
   const getTaskById = (id: string) => snap.tasks[id];
 
-  const getAllColumnTasks = (columnId: string) =>
-    snap.columns[columnId].taskIds as string[];
+  const getAllColumnTasks = (columnId?: string) =>
+    columnId ? snap.columns[columnId]?.taskIds || [] : [];
 
   const areAllColumnTasksSelected = (columnId: string) => {
     const all = getAllColumnTasks(columnId);
