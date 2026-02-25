@@ -167,9 +167,7 @@ export const boardActions = {
   setTaskStatus: (taskId: string, status: TaskStatus) => void,
 
   // --- Bulk task operations ---
-  deleteSelectedTasks: () => void,
-  setSelectedTasksStatus: (status: TaskStatus) => void,
-  moveSelectedTasksToColumn: (targetColumnId: string) => void,
+  deleteTasks: (taskIds: string) => void,
 
   // --- Selection ---
   selectTask: (taskId: string) => void,

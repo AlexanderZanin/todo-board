@@ -242,20 +242,6 @@ export const boardActions = {
     boardStore.selectedTaskIds = [];
   },
 
-  selectAllInColumn(columnId: string) {
-    const column = boardStore.columns[columnId];
-    if (!column) return;
-
-    boardStore.selectedTaskIds = [...column.taskIds];
-  },
-
-  setSelectedTasksStatus(status: TaskStatus) {
-    boardStore.selectedTaskIds.forEach((taskId) => {
-      const task = boardStore.tasks[taskId];
-      if (task) task.status = status;
-    });
-  },
-
   deleteTasks(taskIds: string[]) {
     taskIds.forEach((taskId) => {
       delete boardStore.tasks[taskId];
