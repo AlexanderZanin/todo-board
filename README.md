@@ -4,6 +4,8 @@ This is a small demo Kanban board built with React + TypeScript, Valtio for stat
 @atlaskit/pragmatic-drag-and-drop for DnD. It focuses on a clear state model, explicit
 actions for mutations, and a lightweight component structure.
 
+<h2><a href="https://alexanderzanin.github.io/todo-board/" target="_blank" rel="noopener noreferrer">Demo</a></h2>
+
 ## Quick start
 
 Prerequisites: Node.js 16+ and npm or Yarn.
