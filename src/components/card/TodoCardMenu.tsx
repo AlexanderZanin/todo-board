@@ -20,7 +20,7 @@ export function TodoCardMenu({
   const triggerRef = useRef<HTMLButtonElement | null>(null);
 
   return (
-    <div className="opacity-0 group-hover:opacity-100 transition ml-2 relative">
+    <div className="opacity-100 md:opacity-0 md:group-hover:opacity-100 transition ml-2 relative">
       <button
         ref={triggerRef}
         className="p-1 rounded hover:bg-slate-200 cursor-pointer"
@@ -28,7 +28,11 @@ export function TodoCardMenu({
       >
         ⋯
       </button>
-      <BaseMenu isOpen={menuOpen} onClose={() => setMenuOpen(false)} anchorRef={triggerRef}>
+      <BaseMenu
+        isOpen={menuOpen}
+        onClose={() => setMenuOpen(false)}
+        anchorRef={triggerRef}
+      >
         <BaseMenuButton
           onClick={() => {
             setMenuOpen(false);
