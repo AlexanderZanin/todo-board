@@ -33,7 +33,7 @@ export function AddColumn() {
   }
 
   return (
-    <div className="w-80 flex-shrink-0" ref={ref}>
+    <div className="w-56 sm:w-64 md:w-80 flex-shrink-0" ref={ref}>
       {!isOpen ? (
         <button
           className="w-full bg-white border border-dashed border-slate-300 rounded-lg py-3 text-sm text-slate-500 hover:bg-slate-100 transition cursor-pointer"

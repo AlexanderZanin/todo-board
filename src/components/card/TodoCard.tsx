@@ -60,7 +60,9 @@ export function TodoCard({ item, columnId, isSelected }: Props) {
     >
       <DragButton ref={handleRef} />
 
-      <div className={classNames("flex-1", { "py-1": !item.isEditing })}>
+      <div
+        className={classNames("flex-1 min-w-0", { "py-1": !item.isEditing })}
+      >
         {item.isEditing ? (
           <input
             ref={inputRef}

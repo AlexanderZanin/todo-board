@@ -51,7 +51,10 @@ export function TodoCardView({
         className="mt-1 accent-indigo-600"
         onChange={onChange}
       />
-      <p className={`${isCompleted ? "line-through text-slate-500" : ""}`}>
+      <p
+        title={item.title}
+        className={`${isCompleted ? "line-through text-slate-500 " : ""}min-w-0 overflow-hidden text-ellipsis`}
+      >
         {getTitleWithSearchMatches()}
       </p>
     </div>
