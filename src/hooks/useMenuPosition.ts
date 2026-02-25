@@ -1,3 +1,13 @@
+/**
+ * useMenuPosition
+ *
+ * Compute a fixed `{ top, left }` position for a floating menu anchored to
+ * a trigger element. Returns `null` when the menu should render inline or
+ * when no anchor is available.
+ *
+ * Positioning is performed inside `requestAnimationFrame` to avoid
+ * synchronous layout thrashing when opening menus.
+ */
 import { useEffect, useState } from "react";
 import type { RefObject } from "react";
 

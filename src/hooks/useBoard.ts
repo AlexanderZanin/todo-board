@@ -1,3 +1,10 @@
+/**
+ * `useBoard` hook
+ *
+ * Purpose: expose a read-only snapshot of the board state plus
+ * lightweight getters and the `boardActions` API for components.
+ * Components should use this hook instead of importing the store directly.
+ */
 import { useSnapshot } from "valtio";
 import { boardStore, boardActions } from "../store/todoBoard.store";
 

@@ -1,3 +1,10 @@
+/**
+ * todoBoard.store.ts
+ *
+ * Purpose: central Valtio store and action surface for the Kanban board.
+ * - `boardStore` contains the normalized state and computed getters.
+ * - `boardActions` provides the only sanctioned mutations for components.
+ */
 import { proxy } from "valtio";
 import { devtools } from "valtio/utils";
 import { v4 as uuid } from "uuid";

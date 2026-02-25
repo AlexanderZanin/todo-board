@@ -1,3 +1,12 @@
+/**
+ * useDragAndDrop
+ *
+ * Lightweight wrappers around the Pragmatic DnD element adapter.
+ * - `useDraggable` attaches drag behavior and optional custom drag previews.
+ * - `useDroppable` wires an element as a drop target and forwards payloads.
+ *
+ * The module also exports typed drag metadata shapes used across the app.
+ */
 import { useEffect, useRef } from "react";
 import type { RefObject } from "react";
 import {
@@ -115,7 +124,10 @@ export function useDraggable(
         element.removeEventListener("dragend", onDragEnd as EventListener);
         document.removeEventListener("dragend", onDragEnd as EventListener);
         document.removeEventListener("pointerup", onDragEnd as EventListener);
-        document.removeEventListener("pointercancel", onDragEnd as EventListener);
+        document.removeEventListener(
+          "pointercancel",
+          onDragEnd as EventListener,
+        );
       } catch (e) {
         console.warn("Error during draggable cleanup", e);
       }
