@@ -1,4 +1,5 @@
 import { useRef, useEffect, useState } from "react";
+import classNames from "classnames";
 import {
   useDraggable,
   useRefWithNull,
@@ -56,14 +57,14 @@ export function TodoCard({ item, columnId, isSelected }: Props) {
   return (
     <div
       ref={rootRef}
-      className={`group rounded-md p-3 border text-sm transition-all flex items-center gap-2
+      className={`group rounded-md p-3 border text-sm transition-all flex items-start gap-2
         ${computedIsSelected ? "border-indigo-500 ring-2 ring-indigo-200" : "border-slate-200"}
         ${isCompleted ? "bg-white/50" : "bg-white"}
       `}
     >
       <DragButton ref={handleRef} />
 
-      <div className="flex-1">
+      <div className={classNames("flex-1", { "py-1": !item.isEditing })}>
         {item.isEditing ? (
           <input
             ref={inputRef}
