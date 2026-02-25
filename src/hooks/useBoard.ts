@@ -20,8 +20,11 @@ export function useBoard() {
   const getAllColumnTasks = (columnId: string) =>
     snap.columns[columnId].taskIds as string[];
 
-  const areAllColumnTasksSelected = (columnId: string) =>
-    getAllColumnTasks(columnId).length === snap.selectedTaskIds.length;
+  const areAllColumnTasksSelected = (columnId: string) => {
+    const all = getAllColumnTasks(columnId);
+    if (all.length === 0) return false;
+    return all.every((id) => snap.selectedTaskIds.includes(id));
+  };
 
   const getSelectedTasksInColumn = (columnId: string) =>
     getAllColumnTasks(columnId).filter((id) =>

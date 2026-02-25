@@ -15,6 +15,7 @@ export function ColumnHeaderMenu({
 
   const selectedInColumn = getters.getSelectedTasksInColumn(columnId);
   const hasSelectedInColumn = selectedInColumn.length > 0;
+  const areAllSelected = getters.areAllColumnTasksSelected(columnId);
 
   return (
     <div className="relative">
@@ -28,16 +29,14 @@ export function ColumnHeaderMenu({
         <BaseMenuButton
           onClick={() => {
             setIsOpen(false);
-            if (getters.areAllColumnTasksSelected(columnId)) {
-              actions.clearSelection();
+            if (areAllSelected) {
+              actions.clearSelection(columnId);
               return;
             }
             actions.selectTask(getters.getAllColumnTasks(columnId));
           }}
         >
-          {getters.areAllColumnTasksSelected(columnId)
-            ? "Deselect all tasks"
-            : "Select all tasks"}
+          {areAllSelected ? "Deselect all tasks" : "Select all tasks"}
         </BaseMenuButton>
 
         {Boolean(hasSelectedInColumn) && (
@@ -49,7 +48,7 @@ export function ColumnHeaderMenu({
                 setIsOpen(false);
                 if (!hasSelectedInColumn) return;
                 actions.setTasksStatus(selectedInColumn, "completed");
-                actions.clearSelection();
+                actions.clearSelection(columnId);
               }}
             >
               Complete selected
@@ -60,7 +59,7 @@ export function ColumnHeaderMenu({
                 setIsOpen(false);
                 if (!hasSelectedInColumn) return;
                 actions.setTasksStatus(selectedInColumn, "active");
-                actions.clearSelection();
+                actions.clearSelection(columnId);
               }}
             >
               Incomplete selected
@@ -72,6 +71,7 @@ export function ColumnHeaderMenu({
                 setIsOpen(false);
                 if (!hasSelectedInColumn) return;
                 actions.deleteTasks(selectedInColumn);
+                actions.clearSelection(columnId);
               }}
             >
               Delete selected

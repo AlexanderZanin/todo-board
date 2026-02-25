@@ -1,5 +1,5 @@
 import type { BoardState } from "../models";
-import { boardStore } from "../store/todoBoard.store";
+import { boardStore, boardActions } from "../store/todoBoard.store";
 import { subscribe } from "valtio";
 import { LocalStorageService } from "../services/todoStorage.service";
 import debounce from "lodash-es/debounce";
@@ -14,7 +14,7 @@ export async function initToDoStorage() {
   const saved = await storage.load();
 
   if (saved) {
-    Object.assign(boardStore, saved);
+    boardActions.initialize(saved);
   }
 
   subscribe(boardStore, () => {

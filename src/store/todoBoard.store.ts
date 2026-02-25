@@ -2,16 +2,7 @@ import { proxy } from "valtio";
 import { devtools } from "valtio/utils";
 import type { BoardState, TaskStatus, Task } from "../models";
 
-export function generateId() {
-  return crypto.randomUUID();
-}
-
-export function reorder<T>(list: T[], startIndex: number, endIndex: number) {
-  const result = [...list];
-  const [removed] = result.splice(startIndex, 1);
-  result.splice(endIndex, 0, removed);
-  return result;
-}
+export const generateId = () => crypto.randomUUID();
 
 type ComputedProperties = {
   readonly columnsWithTasks: {
@@ -104,14 +95,6 @@ export const boardActions = {
     column.title = title;
   },
 
-  reorderColumns(startIndex: number, endIndex: number) {
-    boardStore.columnOrder = reorder(
-      boardStore.columnOrder,
-      startIndex,
-      endIndex,
-    );
-  },
-
   moveColumn(params: { columnId: string; toIndex: number }) {
     const { columnId, toIndex } = params;
 
@@ -183,20 +166,6 @@ export const boardActions = {
     task.status = task.status === "active" ? "completed" : "active";
   },
 
-  setTaskStatus(taskId: string, status: TaskStatus) {
-    const task = boardStore.tasks[taskId];
-    if (!task) return;
-
-    task.status = status;
-  },
-
-  reorderTasks(columnId: string, startIndex: number, endIndex: number) {
-    const column = boardStore.columns[columnId];
-    if (!column) return;
-
-    column.taskIds = reorder(column.taskIds, startIndex, endIndex);
-  },
-
   moveTask(params: {
     taskId: string;
     fromColumnId: string;
@@ -260,7 +229,16 @@ export const boardActions = {
     );
   },
 
-  clearSelection() {
+  clearSelection(columnId?: string) {
+    if (columnId) {
+      const column = boardStore.columns[columnId];
+      if (!column) return;
+      boardStore.selectedTaskIds = boardStore.selectedTaskIds.filter(
+        (id) => !column.taskIds.includes(id),
+      );
+      return;
+    }
+
     boardStore.selectedTaskIds = [];
   },
 
@@ -269,18 +247,6 @@ export const boardActions = {
     if (!column) return;
 
     boardStore.selectedTaskIds = [...column.taskIds];
-  },
-
-  deleteSelectedTasks() {
-    boardStore.selectedTaskIds.forEach((taskId) => {
-      delete boardStore.tasks[taskId];
-
-      Object.values(boardStore.columns).forEach((column) => {
-        column.taskIds = column.taskIds.filter((id) => id !== taskId);
-      });
-    });
-
-    boardStore.selectedTaskIds = [];
   },
 
   setSelectedTasksStatus(status: TaskStatus) {

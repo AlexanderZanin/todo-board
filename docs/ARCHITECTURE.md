@@ -286,9 +286,7 @@ function TaskCard({ taskId }: { taskId: string }) {
   return (
     <div>
       <span>{task.title}</span>
-      <button onClick={() => actions.setTaskStatus(taskId, "completed")}>
-        Complete
-      </button>
+      <button onClick={() => actions.toggleTask(taskId)}>Complete</button>
     </div>
   );
 }
