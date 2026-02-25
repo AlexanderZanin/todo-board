@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useRef } from "react";
 import { BaseMenu, BaseMenuButton } from "../base";
 import { useBoard } from "../../hooks";
 import type { Task } from "../../models";
@@ -17,15 +17,18 @@ export function TodoCardMenu({
   const [menuOpen, setMenuOpen] = useState(false);
   const { actions } = useBoard();
 
+  const triggerRef = useRef<HTMLButtonElement | null>(null);
+
   return (
     <div className="opacity-0 group-hover:opacity-100 transition ml-2 relative">
       <button
+        ref={triggerRef}
         className="p-1 rounded hover:bg-slate-200 cursor-pointer"
         onClick={() => setMenuOpen(true)}
       >
         ⋯
       </button>
-      <BaseMenu isOpen={menuOpen} onClose={() => setMenuOpen(false)}>
+      <BaseMenu isOpen={menuOpen} onClose={() => setMenuOpen(false)} anchorRef={triggerRef}>
         <BaseMenuButton
           onClick={() => {
             setMenuOpen(false);

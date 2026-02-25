@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useRef } from "react";
 import { BaseMenu, BaseMenuButton } from "../base";
 import { useBoard } from "../../hooks";
 
@@ -12,6 +12,7 @@ export function ColumnHeaderMenu({
 }: ColumnHeaderMenuProps) {
   const [isOpen, setIsOpen] = useState(false);
   const { actions, getters } = useBoard();
+  const buttonRef = useRef<HTMLButtonElement | null>(null);
 
   const selectedInColumn = getters.getSelectedTasksInColumn(columnId);
   const hasSelectedInColumn = selectedInColumn.length > 0;
@@ -20,12 +21,13 @@ export function ColumnHeaderMenu({
   return (
     <div className="relative">
       <button
+        ref={buttonRef}
         className="p-1 rounded hover:bg-slate-200 cursor-pointer"
         onClick={() => setIsOpen(true)}
       >
         ⋯
       </button>
-      <BaseMenu isOpen={isOpen} onClose={() => setIsOpen(false)}>
+      <BaseMenu isOpen={isOpen} onClose={() => setIsOpen(false)} anchorRef={buttonRef}>
         <BaseMenuButton
           onClick={() => {
             setIsOpen(false);

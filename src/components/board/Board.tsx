@@ -17,7 +17,7 @@ export function Board() {
                 <ColumnHeader columnId={column.id} />
 
                 {column.tasks.length ? (
-                  <div className="px-3 pb-3">
+                  <div className="px-3 pb-4 max-h-[60vh] overflow-auto">
                     {/** Drop before first, between and after tasks */}
                     {Array.from({ length: column.tasks.length + 1 }).map(
                       (_, i) => (
